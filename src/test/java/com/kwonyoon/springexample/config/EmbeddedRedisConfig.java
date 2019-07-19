@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import redis.embedded.RedisServer;
 
-@Slf4j // lombok
+//@Slf4j // lombok
 @Profile("test") // profile이 local일때만 활성화
 @Configuration
 public class EmbeddedRedisConfig {
