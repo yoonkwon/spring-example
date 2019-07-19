@@ -1,19 +1,16 @@
 package com.kwonyoon.springexample.redis;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
 import com.google.common.collect.Lists;
 import com.kwonyoon.springexample.entity.Point;
-
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 
-import lombok.NoArgsConstructor;
+import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 public class PointDao {
@@ -21,7 +18,7 @@ public class PointDao {
     @Autowired
     RedisTemplate<String, Point> redisTemplate;
 
-    @Resource(name = "pointRedisTemplate")
+    @Resource(name = "redisTemplate")
     SetOperations<String, Point> setOperations;
 
     public void add(String key, Point point) {

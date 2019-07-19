@@ -6,15 +6,14 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import lombok.extern.slf4j.Slf4j;
 import redis.embedded.RedisServer;
 
-@Slf4j // lombok
-@Profile("test") // profile이 local일때만 활성화
-@Configuration
+@Profile("test") // profile이 test 일때만 활성화
+@TestConfiguration
 public class EmbeddedRedisConfig {
 
     @Value("${spring.redis.port}")
@@ -25,7 +24,6 @@ public class EmbeddedRedisConfig {
     @PostConstruct
     public void redisServer() throws IOException {
         redisServer = new RedisServer(redisPort);
-        log.info("redis start");
         redisServer.start();
     }
 
@@ -34,6 +32,5 @@ public class EmbeddedRedisConfig {
         if (redisServer != null) {
             redisServer.stop();
         }
-        log.info("redis stop");
     }
 }
