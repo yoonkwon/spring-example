@@ -1,4 +1,5 @@
 package com.kwonyoon.springexample.config;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -9,9 +10,11 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import com.kwonyoon.springexample.entity.Point;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,14 +23,15 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @EnableRedisRepositories
-public class RedisRepositoryConfig {
+public class RedisConfig {
 
     private final RedisProperties redisProperties;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        log.info("redisProperties host={}:{}[{}]", redisProperties.getHost(), redisProperties.getPort(), redisProperties.getDatabase());
+        log.info("redisProperties host={}:{}[{}]", redisProperties.getHost(), redisProperties.getPort(),
+                redisProperties.getDatabase());
         config.setHostName(redisProperties.getHost());
         config.setPort(redisProperties.getPort());
         config.setPassword(redisProperties.getPassword());
@@ -40,17 +44,16 @@ public class RedisRepositoryConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
     }
 
     @Bean
-    public RedisTemplate<String, Point> pointRedisTemplate(){
+    public RedisTemplate<String, Point> pointRedisTemplate() {
         RedisTemplate<String, Point> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
     }
 }
-

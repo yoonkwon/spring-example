@@ -1,6 +1,11 @@
 package com.kwonyoon.springexample.entity;
+
+import lombok.Builder;
+import lombok.Data;
+
 @Data
-class Point {
-    double lat;
-    double lng;
+@Builder
+public class Point {
+    int x;
+    int y;
 }

@@ -21,8 +21,12 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
+	
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	
+	testImplementation 'io.lettuce:lettuce-core:5.1.7.RELEASE'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
