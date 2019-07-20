@@ -1,17 +1,16 @@
 package com.kwonyoon.springexample.config;
 
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Profile;
+import redis.embedded.RedisServer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-
-import redis.embedded.RedisServer;
-
+@Slf4j
 @Profile("test") // profile이 test 일때만 활성화
 @TestConfiguration
 public class EmbeddedRedisConfig {
@@ -24,12 +23,14 @@ public class EmbeddedRedisConfig {
     @PostConstruct
     public void redisServer() throws IOException {
         redisServer = new RedisServer(redisPort);
+        log.info("redis start");
         redisServer.start();
     }
 
     @PreDestroy
     public void stopRedis() {
         if (redisServer != null) {
+            log.info("redis stop");
             redisServer.stop();
         }
     }

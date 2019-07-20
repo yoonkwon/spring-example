@@ -28,5 +28,6 @@ dependencies {
 	
 	testImplementation 'io.lettuce:lettuce-core:5.1.7.RELEASE'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
