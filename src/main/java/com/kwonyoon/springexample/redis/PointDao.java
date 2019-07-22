@@ -8,7 +8,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +17,8 @@ public class PointDao {
     @Autowired
     RedisTemplate<String, Point> redisTemplate;
 
-    @Resource(name = "redisTemplate")
+//    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Resource(name="pointRedisTemplate")
     SetOperations<String, Point> setOperations;
 
     public void add(String key, Point point) {
@@ -30,9 +30,11 @@ public class PointDao {
         if (values == null)
             return Lists.newArrayList();
         List<Point> list = Lists.newArrayList(values);
-        Collections.sort(list, (o1, o2) -> {
-            return o1.getX() == o2.getX() ? o1.getY() - o2.getY() : o1.getX() - o1.getX();
-        });
+        list.sort((o1, o2) -> o1.getX() == o2.getX() ? o1.getY() - o2.getY() : o1.getX() - o2.getX());
         return list;
+    }
+
+    public void del(String key){
+        redisTemplate.unlink(key);
     }
 }
